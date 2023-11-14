@@ -16,7 +16,7 @@ class MyDb{
     String path = join(databasesPath, 'notes.db');
 
    // print(path); //output /data/user/0/com.testapp.flutter.testapp/databases/demo.db
-     WidgetsFlutterBinding.ensureInitialized();
+     //WidgetsFlutterBinding.ensureInitialized();
     database = await openDatabase(
         path,
         version: 1,
@@ -58,9 +58,9 @@ class MyDb{
     return null;
   }
   // get all note method
-  static Future<List<Map<String,dynamic>>> getAllNote() async {
-    open();
-     return await database.query(_tablename);
+  static Future<List<Map<String,dynamic>>> getAllNote()  {
+     open();
+     return  database.query(_tablename);
     //getting student data with roll no.
     // if (maps.length > 0) {
     //   return maps;

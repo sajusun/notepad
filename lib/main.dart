@@ -2,29 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:notebook/helper/local_db.dart';
 import 'package:notebook/view/add_note.dart';
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   // MyApp({super.key;});
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'My NotePad',
+      title: 'NotePad',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:    MyHomePage(title: 'My NotePad'),
+      home:    MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-   MyHomePage({super.key, required this.title});
-  final String title;
 
   @override
   State<MyHomePage> createState() =>_MyHomePageState();
@@ -33,18 +31,25 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
    List<Map<String,dynamic>> items=[];
+   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  void getNotes() async{
+        items =await MyDb.getAllNote();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    Future.delayed(Duration(seconds: 1),() {
+    Future.delayed(Duration(milliseconds: 10),() {
       setState(() {
-        MyDb.getAllNote().then((value) {
-          items = value;
-        });
-        // });
+        getNotes();
       });
     },);
+
+
     return Scaffold(
       appBar: AppBar(title:Text("NoteBook"),centerTitle: true,actions: [IconButton(icon: Icon(Icons.add), onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote())) ;
@@ -70,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     try {
                      await MyDb.deleteNote(items[index]['id']);
                     } on Exception catch(e){
-                      print("have some deleting error issu!");
+                      print("have some deleting error issus!");
                     }
                   },icon: Icon(Icons.delete),color: Colors.redAccent,),
 
