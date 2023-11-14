@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -35,14 +36,13 @@ class MyDb{
                 ''');
         });
   }
-
+  // add a single note method
   static addNote(String title, String description){
     open();
     MyDb.database.rawInsert("INSERT INTO $_tablename (title, description) VALUES (?, ?);",
         [title, description]);
   }
-
-
+  //get note information by id
   static Future<Map<dynamic, dynamic>?> getNote(int uid) async {
     open();
     List<Map> maps = await database.query(_tablename,
@@ -53,9 +53,8 @@ class MyDb{
       return maps.first;
     }
     return null;
-
   }
-
+  // get all note method
   static Future<List<Map<String,dynamic>>> getAllNote() async {
     open();
      return await database.query(_tablename);
@@ -65,10 +64,20 @@ class MyDb{
     // }
     // return null;
   }
-
-  static Future<void> deleteNote(int id) async{
+  // delete note by id method
+  static Future<bool> deleteNote(int id)  {
     open();
-    database.delete(_tablename,where: 'id = ?',whereArgs: [id]);
+    Future<int> mgs=database.delete(_tablename,where: 'id = ?',whereArgs: [id]);
+     var result=mgs.then((value) {
+      if(value>0){return true;}else{return false;}
+    });
+     return result;
+  }
+//   update note info by id
+  static Future<void> updateNote(Map<String, dynamic> data, int id) async{
+    open();
+    database.update(_tablename,data, where: 'id = ?',whereArgs: [id]);
+
   }
 
 }
