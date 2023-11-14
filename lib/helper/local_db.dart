@@ -37,10 +37,14 @@ class MyDb{
         });
   }
   // add a single note method
-  static addNote(String title, String description){
+  static Future<bool> addNote(String title, String description){
     open();
-    MyDb.database.rawInsert("INSERT INTO $_tablename (title, description) VALUES (?, ?);",
+   Future<int> mgs= MyDb.database.rawInsert("INSERT INTO $_tablename (title, description) VALUES (?, ?);",
         [title, description]);
+    var result=mgs.then((value) {
+      if(value>0){return true;}else{return false;}
+    });
+    return result;
   }
   //get note information by id
   static Future<Map<dynamic, dynamic>?> getNote(int uid) async {
@@ -48,7 +52,6 @@ class MyDb{
     List<Map> maps = await database.query(_tablename,
         where: 'id = ?',
         whereArgs: [uid]);
-    //getting student data with roll no.
     if (maps.length > 0) {
       return maps.first;
     }
@@ -74,9 +77,13 @@ class MyDb{
      return result;
   }
 //   update note info by id
-  static Future<void> updateNote(Map<String, dynamic> data, int id) async{
+  static Future<bool> updateNote(Map<String, dynamic> data, int id) async{
     open();
-    database.update(_tablename,data, where: 'id = ?',whereArgs: [id]);
+    Future<int> mgs=database.update(_tablename,data, where: 'id = ?',whereArgs: [id]);
+    var result=mgs.then((value) {
+      if(value>0){return true;}else{return false;}
+    });
+    return result;
 
   }
 
