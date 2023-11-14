@@ -28,12 +28,15 @@ class _AddNoteState extends State<AddNote> {
 
   Widget button(){
     if(widget.isEditMode){
-      return IconButton(onPressed: () {
-        MyDb.updateNote({'title':_title.text,'description':_description.text},widget.id);
+      return IconButton(onPressed: () async {
+        bool result=await MyDb.updateNote({'title':_title.text,'description':_description.text},widget.id);
+          print(result);
+          if(result){Navigator.pop(context);}
       }, icon: Icon(Icons.check),);
     }else{
-      return IconButton(onPressed: () {
-        MyDb.addNote(_title.text, _description.text);
+      return IconButton(onPressed: () async {
+        bool result= await MyDb.addNote(_title.text, _description.text);
+          if(result){Navigator.pop(context);}
       }, icon: Icon(Icons.save),);
     }
   }

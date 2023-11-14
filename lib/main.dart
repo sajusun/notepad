@@ -34,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
    List<Map<String,dynamic>> items=[];
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -65,17 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(context,
                           MaterialPageRoute(
                               builder: (context)=>AddNote(isEditMode: true,id: items[index]['id'],title: items[index]['title'],description: items[index]['description'],)));
-
                     },
                       child: Text(items[index]['title'])),
                   trailing: IconButton(onPressed: () async {
                     try {
-                     var int=await MyDb.deleteNote(items[index]['id']);
-                     print(int);
+                     await MyDb.deleteNote(items[index]['id']);
                     } on Exception catch(e){
                       print("have some deleting error issu!");
                     }
-                  },icon: Icon(Icons.delete),),
+                  },icon: Icon(Icons.delete),color: Colors.redAccent,),
 
                 ),
               );
