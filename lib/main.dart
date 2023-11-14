@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:notebook/helper/local_db.dart';
 import 'package:notebook/view/add_note.dart';
 void main() {
-  runApp( MyApp());
+  runApp(const MyApp());
 }
-
-
 class MyApp extends StatelessWidget {
-   // MyApp({super.key;});
+   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,13 +15,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:    MyHomePage(),
+      home:const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-
+  const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() =>_MyHomePageState();
 }
@@ -43,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 10),() {
+    Future.delayed(const Duration(milliseconds: 10),() {
       setState(() {
         getNotes();
       });
@@ -51,10 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
     return Scaffold(
-      appBar: AppBar(title:Text("NoteBook"),centerTitle: true,actions: [IconButton(icon: Icon(Icons.add), onPressed: () {
+      appBar: AppBar(title:const Text("NoteBook"),centerTitle: true,actions: [IconButton(icon:const Icon(Icons.add), onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote())) ;
       },)],),
-      body: Container(
+      body: SizedBox(
        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
 
@@ -63,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             itemBuilder: (context, index){
               return   Card(
                 child: ListTile(
-                  leading: IconButton(onPressed: (){},icon: Icon(Icons.edit),),
+                  leading: IconButton(onPressed: (){},icon:const Icon(Icons.edit),),
                   title: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -75,9 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     try {
                      await MyDb.deleteNote(items[index]['id']);
                     } on Exception catch(e){
-                      print("have some deleting error issus!");
+                      return Future(() => e);
                     }
-                  },icon: Icon(Icons.delete),color: Colors.redAccent,),
+                  },icon:const Icon(Icons.delete),color: Colors.redAccent,),
 
                 ),
               );
