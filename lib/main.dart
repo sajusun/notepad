@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/helper/local_db.dart';
-import 'package:notebook/model/noteModel.dart';
 import 'package:notebook/view/add_note.dart';
 void main() {
   runApp(const MyApp());
@@ -48,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     },);
     return Scaffold(
-      appBar: AppBar(title:Text("Note Book"),actions: [IconButton(icon: Icon(Icons.add), onPressed: () {
+      appBar: AppBar(title:Text("NoteBook"),centerTitle: true,actions: [IconButton(icon: Icon(Icons.add), onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote())) ;
       },)],),
       body: Container(
@@ -58,20 +57,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView.builder(
             itemCount:items.length,
             itemBuilder: (context, index){
-              return   ListTile(
-                leading: IconButton(onPressed: (){},icon: Icon(Icons.edit),),
-                title: InkWell(
-                  onTap: (){
+              return   Card(
+                child: ListTile(
+                  leading: IconButton(onPressed: (){},icon: Icon(Icons.edit),),
+                  title: InkWell(
+                    onTap: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context)=>AddNote(isEditMode: true,id: items[index]['id'],title: items[index]['title'],description: items[index]['description'],)));
 
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote()));
-                    // AddNote().description=items[index]['description'];
-                    // AddNote().title=items[index]['title'];
-                  },
-                    child: Text(items[index]['title'])),
-                trailing: IconButton(onPressed: (){
-                  MyDb.deleteNote(items[index]['id']);
-                },icon: Icon(Icons.delete),),
+                    },
+                      child: Text(items[index]['title'])),
+                  trailing: IconButton(onPressed: () async {
+                    try {
+                     var int=await MyDb.deleteNote(items[index]['id']);
+                     print(int);
+                    } on Exception catch(e){
+                      print("have some deleting error issu!");
+                    }
+                  },icon: Icon(Icons.delete),),
 
+                ),
               );
 
             }),

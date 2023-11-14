@@ -1,66 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/helper/local_db.dart';
 
-class AddNote extends StatelessWidget {
-   AddNote({super.key});
-   TextEditingController _title=TextEditingController();
-   TextEditingController _description=TextEditingController();
 
+class AddNote extends StatefulWidget {
+  AddNote({this.isEditMode=false,this.id=0, this.title, this.description});
+  bool isEditMode;
+  String? title,description;
+  int id;
 
-   TextEditingController get title => _title;
+  @override
+  State<AddNote> createState() => _AddNoteState();
+}
 
-  set title(TextEditingController value) {
-    _title = value;
+class _AddNoteState extends State<AddNote> {
+  TextEditingController _title=TextEditingController();
+  TextEditingController _description=TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.isEditMode){
+      _title.text=widget.title.toString();
+      _description.text=widget.description.toString();
+    }
   }
 
-   TextEditingController get description => _description;
+  Widget button(){
+    if(widget.isEditMode){
+      return IconButton(onPressed: () {
+        MyDb.updateNote({'title':_title.text,'description':_description.text},widget.id);
+      }, icon: Icon(Icons.check),);
+    }else{
+      return IconButton(onPressed: () {
+        MyDb.addNote(_title.text, _description.text);
+      }, icon: Icon(Icons.save),);
+    }
+  }
 
-   set description(TextEditingController value) {
-     _description = value;
-   }
 
   @override
   Widget build(BuildContext context) {
     MyDb();
     return  Scaffold(
-      appBar: AppBar(title: Text("Add New Note"),centerTitle: true,),
+      appBar: AppBar(
+        title: TextFormField(
+          controller: _title,
+          maxLines: 1,
+          decoration: InputDecoration(hintText: "Title",
+          border: InputBorder.none),
+          scrollPadding: EdgeInsets.all(20.0),
+          keyboardType: TextInputType.multiline,
+          autofocus: true,
+        ),
+        centerTitle: true,
+        actions: [
+        button(),
+        ],
+      ),
       body: Container(
         padding: const EdgeInsets.all(20),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Colors.blueGrey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _title,
-              maxLines: 1,
-              decoration: InputDecoration(hintText: "Note Title",),
+        color: Colors.white54,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: TextFormField(
+              controller: _description,
+              maxLines: 9999,
+              decoration: InputDecoration(hintText: "Note Description",
+              border: InputBorder.none),
               scrollPadding: EdgeInsets.all(20.0),
               keyboardType: TextInputType.multiline,
               autofocus: true,
             ),
-            Container(
-              height: 300,
-              child: SingleChildScrollView(
-                child: TextFormField(
-                  controller: _description,
-                  maxLines: 10,
-                  decoration: InputDecoration(hintText: "Note Description",),
-                  scrollPadding: EdgeInsets.all(20.0),
-                  keyboardType: TextInputType.multiline,
-                  autofocus: true,
-                ),
-              ),
-            ),
-          ElevatedButton(onPressed: (){
-            MyDb.addNote(_title.text, _description.text);
-          }, child: Text("Save Me"))
-          ],
+          ),
         ),
 
       ),
     );
   }
-
-
 }
+
+
+
