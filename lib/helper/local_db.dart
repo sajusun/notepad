@@ -1,11 +1,9 @@
-
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MyDb{
   static late Database database;
- static String _tablename="mynotes";
+  static String _tablename="mynotes";
 
   MyDb(){
     open();
@@ -52,7 +50,7 @@ class MyDb{
     List<Map> maps = await database.query(_tablename,
         where: 'id = ?',
         whereArgs: [uid]);
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       return maps.first;
     }
     return null;

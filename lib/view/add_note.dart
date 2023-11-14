@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/helper/local_db.dart';
 
-
+@immutable
 class AddNote extends StatefulWidget {
   AddNote({this.isEditMode=false,this.id=0, this.title, this.description});
   bool isEditMode;
