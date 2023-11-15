@@ -25,7 +25,9 @@ class MyDb{
                   CREATE TABLE IF NOT EXISTS $_tablename( 
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         title TEXT NOT NULL,
-                        description TEXT
+                        description TEXT,
+                        creationTime TEXT,
+                        modifiedTime TEXT
                         
                     );
 
@@ -35,10 +37,10 @@ class MyDb{
         });
   }
   // add a single note method
-  static Future<bool> addNote(String title, String description){
+  static Future<bool> addNote(String title, String description, String creationTime){
     open();
-   Future<int> mgs= MyDb.database.rawInsert("INSERT INTO $_tablename (title, description) VALUES (?, ?);",
-        [title, description]);
+   Future<int> mgs= MyDb.database.rawInsert("INSERT INTO $_tablename (title, description, creationTime, modifiedTime) VALUES (?, ? ,?, ?);",
+        [title, description, creationTime,"None"]);
     var result=mgs.then((value) {
       if(value>0){return true;}else{return false;}
     });
@@ -75,9 +77,9 @@ class MyDb{
      return result;
   }
 //   update note info by id
-  static Future<bool> updateNote(Map<String, dynamic> data, int id) async{
+  static Future<bool> updateNote(String title,String description,String modifiedTime, int id) async{
     open();
-    Future<int> mgs=database.update(_tablename,data, where: 'id = ?',whereArgs: [id]);
+    Future<int> mgs=database.update(_tablename,{'title':title,'description':description, 'modifiedTime': modifiedTime}, where: 'id = ?',whereArgs: [id]);
     var result=mgs.then((value) {
       if(value>0){return true;}else{return false;}
     });

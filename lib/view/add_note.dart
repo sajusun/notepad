@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/helper/date_time.dart';
 import 'package:notebook/helper/local_db.dart';
 
 @immutable
@@ -29,13 +30,13 @@ class _AddNoteState extends State<AddNote> {
   Widget button(){
     if(widget.isEditMode){
       return IconButton(onPressed: () async {
-        bool result=await MyDb.updateNote({'title':_title.text,'description':_description.text},widget.id);
+        bool result=await MyDb.updateNote(_title.text, _description.text, currentDateTime(), widget.id);
           print(result);
           if(result){Navigator.pop(context);}
       }, icon: Icon(Icons.check),);
     }else{
       return IconButton(onPressed: () async {
-        bool result= await MyDb.addNote(_title.text, _description.text);
+        bool result= await MyDb.addNote(_title.text, _description.text, currentDateTime());
           if(result){Navigator.pop(context);}
       }, icon: Icon(Icons.save_outlined),);
     }
