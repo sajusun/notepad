@@ -50,12 +50,11 @@ Future<void> noteInfoDialogBox(BuildContext context, String creationDate, String
       return AlertDialog(
         title: Center(child: const Text('Note Info',style: TextStyle(color: Colors.grey),)),
         content: SingleChildScrollView(
-          child: Text("""
-  Note Create Date :
+          child: Text(
+              """  Note Create Date :
   $creationDate \n
   Note Last Modified : 
-  $modifiedDate
-           """ ),
+  $modifiedDate""" ),
         ),
         actions: <Widget>[
           TextButton(

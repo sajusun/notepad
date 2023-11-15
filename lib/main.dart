@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
 print(currentDateTime());
     return Scaffold(
       appBar: AppBar(title:const Text("NoteBook"),centerTitle: true,
-        actions: [IconButton(icon:const Icon(Icons.add,color: Colors.cyanAccent,size: 24,),
+        actions: [IconButton(icon:const Icon(Icons.add_box_outlined,size: 24,),
         onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote())) ;
       },)],),

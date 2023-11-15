@@ -30,14 +30,26 @@ class _AddNoteState extends State<AddNote> {
   Widget button(){
     if(widget.isEditMode){
       return IconButton(onPressed: () async {
-        bool result=await MyDb.updateNote(_title.text, _description.text, currentDateTime(), widget.id);
-          print(result);
+        String title="";
+        if(_title.text.isNotEmpty) {
+           title=_title.text;
+        }else{
+        title="Untitled";
+        }
+        bool result=await MyDb.updateNote(title, _description.text, currentDateTime(), widget.id);
           if(result){Navigator.pop(context);}
       }, icon: Icon(Icons.check),);
     }else{
       return IconButton(onPressed: () async {
-        bool result= await MyDb.addNote(_title.text, _description.text, currentDateTime());
-          if(result){Navigator.pop(context);}
+        String title="Untitled";
+        bool result;
+        if(_title.text.isNotEmpty) {
+           result = await MyDb.addNote(_title.text, _description.text, currentDateTime());
+        }else{
+          result = await MyDb.addNote(title, _description.text, currentDateTime());
+        }
+          if(result){Navigator.pop(context);
+          }
       }, icon: Icon(Icons.save_outlined),);
     }
   }
@@ -49,7 +61,7 @@ class _AddNoteState extends State<AddNote> {
     return  Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: (){Navigator.pop(context);},
-            icon: Icon(Icons.chevron_left_rounded,color: Colors.cyanAccent,size: 24,)),
+            icon: Icon(Icons.chevron_left_rounded,size: 24,)),
         title: TextFormField(
           controller: _title,
           maxLines: 1,
