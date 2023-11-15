@@ -49,7 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
     return Scaffold(
-      appBar: AppBar(title:const Text("NoteBook"),centerTitle: true,actions: [IconButton(icon:const Icon(Icons.add), onPressed: () {
+      appBar: AppBar(title:const Text("NoteBook"),centerTitle: true,
+        actions: [IconButton(icon:const Icon(Icons.add,color: Colors.cyanAccent,size: 24,),
+        onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote())) ;
       },)],),
       body: SizedBox(
