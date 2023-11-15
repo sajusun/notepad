@@ -37,7 +37,7 @@ class _AddNoteState extends State<AddNote> {
       return IconButton(onPressed: () async {
         bool result= await MyDb.addNote(_title.text, _description.text);
           if(result){Navigator.pop(context);}
-      }, icon: Icon(Icons.save),);
+      }, icon: Icon(Icons.save_outlined),);
     }
   }
 
@@ -47,6 +47,8 @@ class _AddNoteState extends State<AddNote> {
     MyDb();
     return  Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){Navigator.pop(context);},
+            icon: Icon(Icons.chevron_left_rounded,color: Colors.cyanAccent,size: 24,)),
         title: TextFormField(
           controller: _title,
           maxLines: 1,
