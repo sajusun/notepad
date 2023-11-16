@@ -60,7 +60,7 @@ class MyDb{
 
   static Future<List<Map<String,dynamic>>> searchNote(String searchText)  {
     open();
-    return  database.rawQuery("SELECT * FROM $_tablename WHERE title LIKE (?);", ["$searchText%"]);
+    return  database.rawQuery("SELECT * FROM $_tablename WHERE title LIKE (?);", ["%$searchText%"]);
   }
   // get all note method
   static Future<List<Map<String,dynamic>>> getAllNote()  {
