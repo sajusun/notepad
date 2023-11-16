@@ -20,7 +20,6 @@ Future<void> deleteDialogBox(BuildContext context, int id) async {
           TextButton(
             child: const Text('Cancel'),
             onPressed: () {
-
               Navigator.of(context).pop();
             },
           ),
@@ -29,6 +28,7 @@ Future<void> deleteDialogBox(BuildContext context, int id) async {
             onPressed: () async {
               try {
                 await MyDb.deleteNote(id);
+
               } on Exception catch(e){
                 return Future(() => e);
               }

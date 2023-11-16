@@ -57,15 +57,15 @@ class MyDb{
     }
     return null;
   }
+
+  static Future<List<Map<String,dynamic>>> searchNote(String searchText)  {
+    open();
+    return  database.rawQuery("SELECT * FROM $_tablename WHERE title LIKE (?);", ["$searchText%"]);
+  }
   // get all note method
   static Future<List<Map<String,dynamic>>> getAllNote()  {
      open();
      return  database.query(_tablename);
-    //getting student data with roll no.
-    // if (maps.length > 0) {
-    //   return maps;
-    // }
-    // return null;
   }
   // delete note by id method
   static Future<bool> deleteNote(int id)  {
