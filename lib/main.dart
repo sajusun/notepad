@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/helper/date_time.dart';
+import 'package:notebook/helper/file_handler.dart';
 import 'package:notebook/helper/local_db.dart';
 import 'package:notebook/view/add_note.dart';
 import 'package:notebook/widget/alert_dialog.dart';
@@ -96,8 +97,16 @@ class _MyHomePageState extends State<MyHomePage> {
       },),
           PopupMenuButton(itemBuilder: (context){
             return [
-              PopupMenuItem(child: Text("Import")),
-              PopupMenuItem(child: Text("Export")),
+              PopupMenuItem(child: Text("Import"),onTap: () {
+                FileManager().createDir();
+                FileManager().readDir();
+                alertBox(context,  "import");
+
+              },),
+              PopupMenuItem(child: Text("Export"),onTap: (){
+                FileManager().filewrite();
+                alertBox(context, "Export");
+              },),
             ];
           })],
       ),

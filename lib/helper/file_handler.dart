@@ -28,14 +28,20 @@ class FileManager{
 //   }
 
   Future<String> createDir() async {
-    var directory = await Directory('notes').create(recursive: true);
+    //var directory = await Directory('notes').create(recursive: true);
+    final dir = await getApplicationDocumentsDirectory();
+    var directory = await Directory("${dir.path}/notes").create(recursive: true);
+
+    //print(dir.path);
+    print(directory.path);
     return directory.path;
   }
 
 // reading dirrectory where notes r exists
-  void readDir() {
+  Future<void> readDir() async {
+    String dd=await createDir().then((value) => value);
     List<FileSystemEntity> files;
-    final folder = new Directory("notes/");
+    final folder = new Directory(dd);
     files = folder.listSync(recursive: true, followLinks: false);
     files.forEach((element) {
       readFile(element.path);
