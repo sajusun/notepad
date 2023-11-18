@@ -69,3 +69,27 @@ Future<void> noteInfoDialogBox(BuildContext context, String creationDate, String
     },
   );
 }
+
+Future<void> alertBox(BuildContext context, String data) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: true, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Center(child: const Text('Note Info',style: TextStyle(color: Colors.grey),)),
+        content: SingleChildScrollView(
+          child: Text(data),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+
+        ],
+      );
+    },
+  );
+}
