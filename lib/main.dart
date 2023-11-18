@@ -92,8 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
         title:searchWidget(isSearch),centerTitle: true,
         actions: [IconButton(icon:const Icon(Icons.add_box_outlined,size: 24,),
         onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote())) ;
-      },)],),
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNote()));
+      },),
+          PopupMenuButton(itemBuilder: (context){
+            return [
+              PopupMenuItem(child: Text("Import")),
+              PopupMenuItem(child: Text("Export")),
+            ];
+          })],
+      ),
       body: SizedBox(
        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
