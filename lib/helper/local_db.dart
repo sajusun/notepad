@@ -46,6 +46,17 @@ class MyDb{
     });
     return result;
   }
+
+  // Import notes form directorys
+  static Future<bool> importNote(String creationTime,String modifiedTime,String title, String description,){
+    open();
+    Future<int> mgs= MyDb.database.rawInsert("INSERT INTO $_tablename (title, description, creationTime, modifiedTime) VALUES (?, ? ,?, ?);",
+        [title, description, creationTime,modifiedTime]);
+    var result=mgs.then((value) {
+      if(value>0){return true;}else{return false;}
+    });
+    return result;
+  }
   //get note information by id
   static Future<Map<dynamic, dynamic>?> getNote(int uid) async {
     open();

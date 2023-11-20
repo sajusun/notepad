@@ -99,9 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
             return [
               PopupMenuItem(child: Text("Import"),onTap: () async {
                 // FileManager().createDir();
-                // FileManager().readDir();
-                var loc=await FileManager().ExternalDir().then((value) => value);
-                alertBox(context,  loc);
+                 FileManager().readDir();
+                var loc=await FileManager().createDir().then((value) => value);
+                 alertBox(context,  "Import From $loc");
 
               },),
               PopupMenuItem(child: Text("Export"),onTap: () async {
