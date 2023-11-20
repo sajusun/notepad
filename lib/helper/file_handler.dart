@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/physics.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:notebook/helper/local_db.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
@@ -28,11 +29,35 @@ class FileManager{
 //     print(file);
 //   }
 
+Future<String> ExternalDir() async {
+  var status =await Permission.storage.status;
+  if(!status.isGranted){
+    await Permission.storage.request();
+  }
+  var dir = Directory("/storage/emulated/0/com.Notebook.notes");
+  //final dir= await getExternalStorageDirectory();
+  await Directory(dir.path).create(recursive: true);
+  print(dir.path);
+  return dir.path;
+}
+
   Future<String> createDir() async {
     //var directory = await Directory('notes').create(recursive: true);
-    final dir = await getApplicationDocumentsDirectory();
-    var directory = await Directory("${dir.path}/notes").create(recursive: true);
+    var status =await Permission.storage.status;
+    if(!status.isGranted){
+      await Permission.storage.request();
+    }
+    // Directory _directory = Directory("");
+    // if (Plat) {
+    //   // Redirects it to download folder in android
+    //   _directory = Directory("/storage/emulated/0/Download");
+    // } else {
+    //   _directory = await getApplicationDocumentsDirectory();
+    // }
 
+    //final dir = await getExternalStorageDirectory();
+    var dir = Directory("/storage/emulated/0/com.Notebook.notes");
+    var directory = await Directory("${dir.path}/notes").create(recursive: true);
     //print(dir.path);
     print(directory.path);
     return directory.path;
@@ -72,7 +97,6 @@ class FileManager{
     List<Map<String, dynamic>> object=[];
     MyDb.getAllNote().then((value) {
      // print(value);
-
       for (int i = 0; i < value.length; i++) {
         generateFile(value, i);
         print(value[i]);
