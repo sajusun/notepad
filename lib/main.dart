@@ -97,15 +97,17 @@ class _MyHomePageState extends State<MyHomePage> {
       },),
           PopupMenuButton(itemBuilder: (context){
             return [
-              PopupMenuItem(child: Text("Import"),onTap: () {
-                FileManager().createDir();
-                FileManager().readDir();
-                alertBox(context,  "import");
+              PopupMenuItem(child: Text("Import"),onTap: () async {
+                // FileManager().createDir();
+                 FileManager().readDir();
+                var loc=await FileManager().createDir().then((value) => value);
+                 alertBox(context,  "Import From $loc");
 
               },),
-              PopupMenuItem(child: Text("Export"),onTap: (){
+              PopupMenuItem(child: Text("Export"),onTap: () async {
                 FileManager().filewrite();
-                alertBox(context, "Export");
+                String dirLocation=await FileManager().createDir().then((value) => value);
+                alertBox(context, "Export to $dirLocation");
               },),
             ];
           })],

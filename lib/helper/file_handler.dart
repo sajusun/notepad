@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'package:flutter/physics.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:notebook/helper/local_db.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:convert';
-import 'dart:io';
+
 class FileManager{
 
 //   final String _fileName ="text.txt";
@@ -28,12 +26,35 @@ class FileManager{
 //     print(file);
 //   }
 
+Future<String> ExternalDir() async {
+  var status =await Permission.storage.status;
+  if(!status.isGranted){
+    await Permission.storage.request();
+  }
+  var dir = Directory("/storage/emulated/0/com.Notebook.notes");
+  //final dir= await getExternalStorageDirectory();
+  await Directory(dir.path).create(recursive: true);
+  print(dir.path);
+  return dir.path;
+}
+
   Future<String> createDir() async {
     //var directory = await Directory('notes').create(recursive: true);
-    final dir = await getApplicationDocumentsDirectory();
-    var directory = await Directory("${dir.path}/notes").create(recursive: true);
+    var status =await Permission.storage.status;
+    if(!status.isGranted){
+      await Permission.storage.request();
+    }
+    // Directory _directory = Directory("");
+    // if (Plat) {
+    //   // Redirects it to download folder in android
+    //   _directory = Directory("/storage/emulated/0/Download");
+    // } else {
+    //   _directory = await getApplicationDocumentsDirectory();
+    // }
 
-    //print(dir.path);
+    //final dir = await getExternalStorageDirectory();
+    var dir = Directory("/storage/emulated/0/com.Notebook.notes");
+    var directory = await Directory("${dir.path}/notes").create(recursive: true);
     print(directory.path);
     return directory.path;
   }
@@ -42,11 +63,11 @@ class FileManager{
   Future<void> readDir() async {
     String cDir=await createDir().then((value) => value);
     List<FileSystemEntity> files;
-    final folder = new Directory(cDir);
+    final folder = Directory(cDir);
     files = folder.listSync(recursive: true, followLinks: false);
-    files.forEach((element) {
+    for (var element in files) {
       readFile(element.path);
-    });
+    }
   }
 
 // read every files in notes directory
@@ -58,11 +79,13 @@ class FileManager{
       print("CreationTime : ${value[0]}");
       print("ModifiedTime : ${value[1]}");
       print("Title : ${value[2]}");
-
       value.sublist(3).forEach((element) {
         desc += "$element \n";
       });
       print("desc: $desc");
+      // inserting import data in mysqlite db
+      MyDb.importNote(value[0], value[1], value[2], desc);
+
     });
   }
 
@@ -72,7 +95,6 @@ class FileManager{
     List<Map<String, dynamic>> object=[];
     MyDb.getAllNote().then((value) {
      // print(value);
-
       for (int i = 0; i < value.length; i++) {
         generateFile(value, i);
         print(value[i]);
