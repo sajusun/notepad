@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/physics.dart';
+import 'package:notebook/helper/local_db.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -39,9 +40,9 @@ class FileManager{
 
 // reading dirrectory where notes r exists
   Future<void> readDir() async {
-    String dd=await createDir().then((value) => value);
+    String cDir=await createDir().then((value) => value);
     List<FileSystemEntity> files;
-    final folder = new Directory(dd);
+    final folder = new Directory(cDir);
     files = folder.listSync(recursive: true, followLinks: false);
     files.forEach((element) {
       readFile(element.path);
@@ -67,59 +68,83 @@ class FileManager{
 
 //file write methods
   void filewrite() async {
-    var object = data();
-    for (int i = 0; i < object.length; i++) {
-      generateFile(object, i);
-    }
+    // var object = data();
+    List<Map<String, dynamic>> object=[];
+    MyDb.getAllNote().then((value) {
+     // print(value);
+
+      for (int i = 0; i < value.length; i++) {
+        generateFile(value, i);
+        print(value[i]);
+      }
+    });
+   // print(object);
+   //  for (int i = 0; i < object.length; i++) {
+   //    print(object);
+   //    generateFile(object, i);
+   //  }
   }
 
 // generate text file for every object
   void generateFile(dynamic object, int i) async {
     final dirName = await createDir();
     final filename =
-        "./${dirName}/${object[i]['title']}-uid-${object[i]['id']}.txt";
-    //print(filename);
+        "${dirName}/${object[i]['title']}-uid-${object[i]['id']}.txt";
+    print(filename);
     await File(filename).writeAsString("""
 ${object[i]['creationTime']}
 ${object[i]['modifiedTime']}
-Note title : ${object[i]['title']}
+${object[i]['title']}
 ${object[i]['description']}""");
   }
 
 // object data format for test
-  dynamic data() {
-    List<Map<String, String>> data = [
-      {
-        "id": "01",
-        "title": "dart program",
-        "description": "write a dart program.",
-        "creationTime": "01/02/2023 10:30 am",
-        "modifiedTime": "01/02/2023 12:30 am"
-      },
-      {
-        "id": "02",
-        "title": "python program ",
-        "description": "data read in python console",
-        "creationTime": "01/02/2023 10:30 am",
-        "modifiedTime": "01/02/2023 12:30 am"
-      },
-      {
-        "id": "03",
-        "title": "Java hello world",
-        "description": "all java code \n in the second line",
-        "creationTime": "01/02/2023 10:30 am",
-        "modifiedTime": "01/02/2023 12:30 am"
-      },
-      {
-        "id": "04",
-        "title": "my hello program",
-        "description": "here is my hello fromgram in flutter",
-        "creationTime": "01/02/2023 10:30 am",
-        "modifiedTime": "01/02/2023 12:30 am"
-      },
-    ];
-    return data;
-  }
+//   dynamic data() async {
+//     List<Map<String, dynamic>> data=[];
+//     // [
+//     //   {
+//     //     "id": "01",
+//     //     "title": "dart program",
+//     //     "description": "write a dart program.",
+//     //     "creationTime": "01/02/2023 10:30 am",
+//     //     "modifiedTime": "01/02/2023 12:30 am"
+//     //   },
+//     //   {
+//     //     "id": "02",
+//     //     "title": "python program ",
+//     //     "description": "data read in python console",
+//     //     "creationTime": "01/02/2023 10:30 am",
+//     //     "modifiedTime": "01/02/2023 12:30 am"
+//     //   },
+//     //   {
+//     //     "id": "03",
+//     //     "title": "Java hello world",
+//     //     "description": "all java code \n in the second line",
+//     //     "creationTime": "01/02/2023 10:30 am",
+//     //     "modifiedTime": "01/02/2023 12:30 am"
+//     //   },
+//     //   {
+//     //     "id": "04",
+//     //     "title": "my hello program",
+//     //     "description": "here is my hello fromgram in flutter",
+//     //     "creationTime": "01/02/2023 10:30 am",
+//     //     "modifiedTime": "01/02/2023 12:30 am"
+//     //   },
+//     // ];
+//
+//     await MyDb.getAllNote().then((value) {
+//       print(value);
+//       //data.addAll(value);
+//     });
+//     return data;
+//   }
+  // Future<void> dbdata() async {
+  //   await MyDb.getAllNote().then((value) {
+  //     print(value);
+  //
+  //   });
+  //
+  // }
 
 
 }
