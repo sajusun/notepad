@@ -1,0 +1,4 @@
+#Mon Nov 20 15:51:57 BDT 2023
+base.0=C\:\\Users\\Dell\\StudioProjects\\notebook\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

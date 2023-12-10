@@ -1,0 +1,4 @@
+#Thu Nov 23 16:06:39 BDT 2023
+base.0=C\:\\Users\\Dell\\StudioProjects\\notebook\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
