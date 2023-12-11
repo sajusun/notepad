@@ -32,24 +32,24 @@ class _AddNoteState extends State<AddNote> {
       return IconButton(onPressed: () async {
         String title="";
         if(_title.text.isNotEmpty) {
-           title=_title.text;
+          title=_title.text;
         }else{
-        title="Untitled";
+          title="Untitled";
         }
         bool result=await MyDb.updateNote(title, _description.text, currentDateTime(), widget.id);
-          if(result){Navigator.pop(context);}
+        if(result){Navigator.pop(context);}
       }, icon: Icon(Icons.check),);
     }else{
       return IconButton(onPressed: () async {
         String title="Untitled";
         bool result;
         if(_title.text.isNotEmpty) {
-           result = await MyDb.addNote(_title.text, _description.text, currentDateTime());
+          result = await MyDb.addNote(_title.text, _description.text, currentDateTime());
         }else{
           result = await MyDb.addNote(title, _description.text, currentDateTime());
         }
-          if(result){Navigator.pop(context);
-          }
+        if(result){Navigator.pop(context);
+        }
       }, icon: Icon(Icons.save_outlined),);
     }
   }
@@ -66,14 +66,14 @@ class _AddNoteState extends State<AddNote> {
           controller: _title,
           maxLines: 1,
           decoration: InputDecoration(hintText: "Title",
-          border: InputBorder.none),
+              border: InputBorder.none),
           scrollPadding: EdgeInsets.all(20.0),
           keyboardType: TextInputType.multiline,
           autofocus: true,
         ),
         centerTitle: true,
         actions: [
-        button(),
+          button(),
         ],
       ),
       body: Container(
@@ -88,7 +88,7 @@ class _AddNoteState extends State<AddNote> {
               controller: _description,
               maxLines: 9999,
               decoration: InputDecoration(hintText: "Note Description",
-              border: InputBorder.none),
+                  border: InputBorder.none),
               scrollPadding: EdgeInsets.all(20.0),
               keyboardType: TextInputType.multiline,
               autofocus: true,
@@ -100,6 +100,3 @@ class _AddNoteState extends State<AddNote> {
     );
   }
 }
-
-
-

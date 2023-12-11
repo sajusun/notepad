@@ -34,7 +34,6 @@ Future<String> ExternalDir() async {
   var dir = Directory("/storage/emulated/0/com.Notebook.notes");
   //final dir= await getExternalStorageDirectory();
   await Directory(dir.path).create(recursive: true);
-  print(dir.path);
   return dir.path;
 }
 
@@ -44,18 +43,9 @@ Future<String> ExternalDir() async {
     if(!status.isGranted){
       await Permission.storage.request();
     }
-    // Directory _directory = Directory("");
-    // if (Plat) {
-    //   // Redirects it to download folder in android
-    //   _directory = Directory("/storage/emulated/0/Download");
-    // } else {
-    //   _directory = await getApplicationDocumentsDirectory();
-    // }
 
-    //final dir = await getExternalStorageDirectory();
     var dir = Directory("/storage/emulated/0/com.Notebook.notes");
     var directory = await Directory("${dir.path}/notes").create(recursive: true);
-    print(directory.path);
     return directory.path;
   }
 
@@ -75,14 +65,9 @@ Future<String> ExternalDir() async {
     File file = File(fileLocation);
     file.readAsLines().then((value) {
       var desc = "";
-      print("\n");
-      print("CreationTime : ${value[0]}");
-      print("ModifiedTime : ${value[1]}");
-      print("Title : ${value[2]}");
       value.sublist(3).forEach((element) {
         desc += "$element \n";
       });
-      print("desc: $desc");
       // inserting import data in mysqlite db
       MyDb.importNote(value[0], value[1], value[2], desc);
 
@@ -100,73 +85,18 @@ Future<String> ExternalDir() async {
         print(value[i]);
       }
     });
-   // print(object);
-   //  for (int i = 0; i < object.length; i++) {
-   //    print(object);
-   //    generateFile(object, i);
-   //  }
   }
 
 // generate text file for every object
   void generateFile(dynamic object, int i) async {
     final dirName = await createDir();
     final filename =
-        "${dirName}/${object[i]['title']}-uid-${object[i]['id']}.txt";
-    print(filename);
+        "$dirName/${object[i]['title']}__${object[i]['id']}.txt";
     await File(filename).writeAsString("""
 ${object[i]['creationTime']}
 ${object[i]['modifiedTime']}
 ${object[i]['title']}
 ${object[i]['description']}""");
   }
-
-// object data format for test
-//   dynamic data() async {
-//     List<Map<String, dynamic>> data=[];
-//     // [
-//     //   {
-//     //     "id": "01",
-//     //     "title": "dart program",
-//     //     "description": "write a dart program.",
-//     //     "creationTime": "01/02/2023 10:30 am",
-//     //     "modifiedTime": "01/02/2023 12:30 am"
-//     //   },
-//     //   {
-//     //     "id": "02",
-//     //     "title": "python program ",
-//     //     "description": "data read in python console",
-//     //     "creationTime": "01/02/2023 10:30 am",
-//     //     "modifiedTime": "01/02/2023 12:30 am"
-//     //   },
-//     //   {
-//     //     "id": "03",
-//     //     "title": "Java hello world",
-//     //     "description": "all java code \n in the second line",
-//     //     "creationTime": "01/02/2023 10:30 am",
-//     //     "modifiedTime": "01/02/2023 12:30 am"
-//     //   },
-//     //   {
-//     //     "id": "04",
-//     //     "title": "my hello program",
-//     //     "description": "here is my hello fromgram in flutter",
-//     //     "creationTime": "01/02/2023 10:30 am",
-//     //     "modifiedTime": "01/02/2023 12:30 am"
-//     //   },
-//     // ];
-//
-//     await MyDb.getAllNote().then((value) {
-//       print(value);
-//       //data.addAll(value);
-//     });
-//     return data;
-//   }
-  // Future<void> dbdata() async {
-  //   await MyDb.getAllNote().then((value) {
-  //     print(value);
-  //
-  //   });
-  //
-  // }
-
 
 }

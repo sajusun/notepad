@@ -1,6 +1,6 @@
 # notebook
 
-Flutter project for make a notebook type app
+A new Flutter project.
 
 ## Getting Started
 

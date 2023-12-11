@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/helper/date_time.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:notebook/helper/file_handler.dart';
 import 'package:notebook/helper/local_db.dart';
 import 'package:notebook/view/add_note.dart';
@@ -36,11 +36,18 @@ class _MyHomePageState extends State<MyHomePage> {
    TextEditingController searchText=TextEditingController();
    @override
   void initState() {
+     onStartUpPermission();
     // TODO: implement initState
     super.initState();
   }
   void getNotes() async{
         items =await MyDb.getAllNote();
+  }
+  onStartUpPermission() async {
+    var status =await Permission.storage.status;
+    if(!status.isGranted){
+      await Permission.storage.request();
+    }
   }
   Widget searchWidget(bool search){
      if(search){
@@ -51,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
          textInputAction: TextInputAction.search,
          controller: searchText,
          maxLines: 1,
-         decoration: InputDecoration(hintText: "Search", border: InputBorder.none),
-         scrollPadding: EdgeInsets.all(20.0),
+         decoration: const InputDecoration(hintText: "Search", border: InputBorder.none),
+         scrollPadding: const EdgeInsets.all(20.0),
          keyboardType: TextInputType.text,
          autofocus: true,
          onChanged: (value){
@@ -89,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           searchText.text="";
         }
 
-      }, icon: Icon(Icons.search_rounded)),
+      }, icon: const Icon(Icons.search_rounded)),
         title:searchWidget(isSearch),centerTitle: true,
         actions: [IconButton(icon:const Icon(Icons.add_box_outlined,size: 24,),
         onPressed: () {
@@ -97,14 +104,14 @@ class _MyHomePageState extends State<MyHomePage> {
       },),
           PopupMenuButton(itemBuilder: (context){
             return [
-              PopupMenuItem(child: Text("Import"),onTap: () async {
+              PopupMenuItem(child: const Text("Import"),onTap: () async {
                 // FileManager().createDir();
                  FileManager().readDir();
                 var loc=await FileManager().createDir().then((value) => value);
                  alertBox(context,  "Import From $loc");
 
               },),
-              PopupMenuItem(child: Text("Export"),onTap: () async {
+              PopupMenuItem(child: const Text("Export"),onTap: () async {
                 FileManager().filewrite();
                 String dirLocation=await FileManager().createDir().then((value) => value);
                 alertBox(context, "Export to $dirLocation");
