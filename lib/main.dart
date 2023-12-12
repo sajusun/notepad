@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               },),
               PopupMenuItem(child: const Text("Export"),onTap: () async {
-                FileManager().filewrite();
+                FileManager().fileWrite();
                 String dirLocation=await FileManager().createDir().then((value) => value);
                 alertBox(context, "Export to $dirLocation");
               },),

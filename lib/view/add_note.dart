@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:notebook/helper/date_time.dart';
 import 'package:notebook/helper/local_db.dart';
 
-@immutable
+
 class AddNote extends StatefulWidget {
-  AddNote({this.isEditMode=false,this.id=0, this.title, this.description});
+  AddNote({super.key, this.isEditMode=false,this.id=0, this.title, this.description});
   bool isEditMode;
   String? title,description;
   int id;
@@ -38,7 +38,7 @@ class _AddNoteState extends State<AddNote> {
         }
         bool result=await MyDb.updateNote(title, _description.text, currentDateTime(), widget.id);
         if(result){Navigator.pop(context);}
-      }, icon: Icon(Icons.check),);
+      }, icon: const Icon(Icons.check),);
     }else{
       return IconButton(onPressed: () async {
         String title="Untitled";
@@ -50,7 +50,7 @@ class _AddNoteState extends State<AddNote> {
         }
         if(result){Navigator.pop(context);
         }
-      }, icon: Icon(Icons.save_outlined),);
+      }, icon: const Icon(Icons.save_outlined),);
     }
   }
 
@@ -61,13 +61,13 @@ class _AddNoteState extends State<AddNote> {
     return  Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: (){Navigator.pop(context);},
-            icon: Icon(Icons.chevron_left_rounded,size: 24,)),
+            icon: const Icon(Icons.chevron_left_rounded,size: 24,)),
         title: TextFormField(
           controller: _title,
           maxLines: 1,
-          decoration: InputDecoration(hintText: "Title",
+          decoration: const InputDecoration(hintText: "Title",
               border: InputBorder.none),
-          scrollPadding: EdgeInsets.all(20.0),
+          scrollPadding: const EdgeInsets.all(20.0),
           keyboardType: TextInputType.multiline,
           autofocus: true,
         ),
@@ -81,15 +81,15 @@ class _AddNoteState extends State<AddNote> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         color: Colors.white54,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: TextFormField(
               controller: _description,
               maxLines: 9999,
-              decoration: InputDecoration(hintText: "Note Description",
+              decoration: const InputDecoration(hintText: "Note Description",
                   border: InputBorder.none),
-              scrollPadding: EdgeInsets.all(20.0),
+              scrollPadding: const EdgeInsets.all(20.0),
               keyboardType: TextInputType.multiline,
               autofocus: true,
             ),

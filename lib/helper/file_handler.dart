@@ -4,29 +4,7 @@ import 'package:notebook/helper/local_db.dart';
 
 class FileManager{
 
-//   final String _fileName ="text.txt";
-// //   get method for getting file path for local storage
-//  Future<String> get _filePath async {
-// final dir = await getApplicationCacheDirectory();
-// return dir.path;
-// }
-//    writeData(dynamic object) async {
-//     for (int i = 0; i < object.length; i++) {
-//      generateFile(object, i);
-//     }
-//
-//  }
-//
-//  Future<void> generateFile(object, int i) async {
-//     final filename = "$_filePath/${object[i]['title']}";
-//     var file = await File(filename).writeAsString("""
-// ${object[i]['creationTime']}\n
-// ${object[i]['modifiedTime']}\n
-// ${object[i]['description']}""");
-//     print(file);
-//   }
-
-Future<String> ExternalDir() async {
+Future<String> externalDir() async {
   var status =await Permission.storage.status;
   if(!status.isGranted){
     await Permission.storage.request();
@@ -49,7 +27,7 @@ Future<String> ExternalDir() async {
     return directory.path;
   }
 
-// reading dirrectory where notes r exists
+// reading directory where notes r exists
   Future<void> readDir() async {
     String cDir=await createDir().then((value) => value);
     List<FileSystemEntity> files;
@@ -68,21 +46,17 @@ Future<String> ExternalDir() async {
       value.sublist(3).forEach((element) {
         desc += "$element \n";
       });
-      // inserting import data in mysqlite db
+      // inserting import data in sqlite db
       MyDb.importNote(value[0], value[1], value[2], desc);
 
     });
   }
 
 //file write methods
-  void filewrite() async {
-    // var object = data();
-    List<Map<String, dynamic>> object=[];
+  void fileWrite() async {
     MyDb.getAllNote().then((value) {
-     // print(value);
       for (int i = 0; i < value.length; i++) {
         generateFile(value, i);
-        print(value[i]);
       }
     });
   }
@@ -98,5 +72,4 @@ ${object[i]['modifiedTime']}
 ${object[i]['title']}
 ${object[i]['description']}""");
   }
-
 }

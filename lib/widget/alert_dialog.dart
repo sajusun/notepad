@@ -48,7 +48,7 @@ Future<void> noteInfoDialogBox(BuildContext context, String creationDate, String
     barrierDismissible: true, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Center(child: const Text('Note Info',style: TextStyle(color: Colors.grey),)),
+        title: const Center(child: Text('Note Info',style: TextStyle(color: Colors.grey),)),
         content: SingleChildScrollView(
           child: Text(
               """  Note Create Date :
@@ -76,7 +76,7 @@ Future<void> alertBox(BuildContext context, String data) async {
     barrierDismissible: true, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Center(child: const Text('Note Info',style: TextStyle(color: Colors.grey),)),
+        title: const Center(child: Text('Note Info',style: TextStyle(color: Colors.grey),)),
         content: SingleChildScrollView(
           child: Text(data),
         ),
