@@ -1,16 +1,13 @@
-# notebook
+# notebook App
 
-A new Flutter project.
+A simple Notebook app made with Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Project Features
+- ##### add anything text with title as your note
+- #####  you can import / export your note
+- #####  exported note may read easily by user as simple text format
+- ##### store all note in SQLite database into the app
+- ##### searching option
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
