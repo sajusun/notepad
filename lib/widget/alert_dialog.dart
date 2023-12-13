@@ -9,6 +9,9 @@ Future<void> deleteDialogBox(BuildContext context, int id) async {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Confirm to Delete'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         content: const SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -49,6 +52,9 @@ Future<void> noteInfoDialogBox(BuildContext context, String creationDate, String
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Center(child: Text('Note Info',style: TextStyle(color: Colors.grey),)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         content: SingleChildScrollView(
           child: Text(
               """  Note Create Date :
@@ -76,6 +82,9 @@ Future<void> alertBox(BuildContext context, String data) async {
     barrierDismissible: true, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         title: const Center(child: Text('Note Info',style: TextStyle(color: Colors.grey),)),
         content: SingleChildScrollView(
           child: Text(data),

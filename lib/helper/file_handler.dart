@@ -48,7 +48,6 @@ Future<String> externalDir() async {
       });
       // inserting import data in sqlite db
       MyDb.importNote(value[0], value[1], value[2], desc);
-
     });
   }
 
